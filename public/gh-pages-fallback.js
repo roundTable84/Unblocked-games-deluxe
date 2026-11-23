@@ -9,7 +9,7 @@
     .ra-header { border-bottom: 1px solid #252B3B; background: #0F1117; position: sticky; top: 0; z-index: 20; }
     .ra-wrap { max-width: 1152px; margin: 0 auto; padding: 0 20px; }
     .ra-nav-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px 0; }
-    .ra-brand { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 18px; font-weight: 700; color: #F4F4F5; text-decoration: none; white-space: nowrap; }
+    .ra-brand { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 18px; font-weight: 700; color: #F4F4F5; text-decoration: none; }
     .ra-btn { background: #FF5A36; color: #fff; border: none; border-radius: 8px; padding: 9px 16px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
     .ra-btn:hover { background: #ff6d4d; }
     .ra-btn-sec { background: #1D222E; color: #E4E4E7; border: 1px solid #2D3548; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
@@ -53,7 +53,7 @@
     const brand = document.createElement('a');
     brand.href = '#library';
     brand.className = 'ra-brand';
-    brand.textContent = 'Recess Arcade';
+    brand.textContent = 'Unblocked Games Deluxe';
     brand.onclick = (e) => {
       e.preventDefault();
       expanded = false;

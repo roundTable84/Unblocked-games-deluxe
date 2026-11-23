@@ -7,5 +7,14 @@
     "description": "Ride a sled down snowy mountain slopes, dodge trees and boulders, and collect gifts.",
     "thumbnail": "./assets/aistudio/image_464a40cd.png",
     "iframe": "<iframe src=\"./games/snow-rider-3d/index.html\" title=\"Snow Rider 3D\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
+  },
+  {
+    "id": "slope",
+    "title": "Slope",
+    "category": "Arcade",
+    "controls": "Arrow Keys or A / D",
+    "description": "Steer a high-speed neon ball down endless 3D slopes while dodging red obstacles and tight drops.",
+    "thumbnail": "./assets/aistudio/image_30a622c5.png",
+    "iframe": "<iframe src=\"./games/slope/index.html\" title=\"Slope\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
   }
 ]
