@@ -22,38 +22,6 @@
             left: 0;
             transform: none;
         }
-        .fullscreen-fab {
-            position: fixed;
-            right: 14px;
-            bottom: 14px;
-            z-index: 9999;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: rgba(15, 17, 23, 0.85);
-            color: #f4f4f5;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-            transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
-        }
-        .fullscreen-fab:hover {
-            background: rgba(255, 90, 54, 0.95);
-            border-color: rgba(255, 90, 54, 1);
-            color: #ffffff;
-        }
-        .fullscreen-fab:active {
-            transform: scale(0.97);
-        }
-        .fullscreen-fab:focus-visible {
-            outline: 2px solid #ff5a36;
-            outline-offset: 2px;
-        }
     </style>
 
     <!-- Game Scripts -->
@@ -61,20 +29,8 @@
     <script src="https://cdn.jsdelivr.net/gh/drippy-cat/snowrider3D@c82fe583cbffafa502b0aa3ed2da0053972e0c80/Build/UnityLoader.js"></script>
 </head>
 <body>
-    <div id="snowRiderRoot" class="webgl-content">
+    <div class="webgl-content">
         <div id="gameContainer" style="width: 100%; height: 100%; margin: auto;"></div>
-        <button
-            id="fullscreenBtn"
-            class="fullscreen-fab"
-            type="button"
-            aria-label="Toggle fullscreen"
-            title="Toggle fullscreen"
-        >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-            </svg>
-            <span id="fullscreenLabel">Fullscreen</span>
-        </button>
     </div>
 
     <script>
@@ -90,40 +46,6 @@
                 }
             }
         );
-
-        (function () {
-            var rootEl = document.getElementById("snowRiderRoot");
-            var btn = document.getElementById("fullscreenBtn");
-            var label = document.getElementById("fullscreenLabel");
-            if (!rootEl || !btn || !label) return;
-
-            function syncLabel() {
-                var fsEl = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-                var active = Boolean(fsEl);
-                label.textContent = active ? "Exit Fullscreen" : "Fullscreen";
-                btn.setAttribute("aria-pressed", active ? "true" : "false");
-            }
-
-            btn.addEventListener("click", function () {
-                btn.blur();
-                var fsEl = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-                if (fsEl) {
-                    var exitFn = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
-                    if (exitFn) exitFn.call(document);
-                    return;
-                }
-                var target = rootEl;
-                var reqFn = target.requestFullscreen || target.webkitRequestFullscreen || target.msRequestFullscreen;
-                if (reqFn) {
-                    Promise.resolve(reqFn.call(target)).catch(function () {
-                        // Fullscreen may be blocked by browser permissions
-                    });
-                }
-            });
-
-            document.addEventListener("fullscreenchange", syncLabel);
-            document.addEventListener("webkitfullscreenchange", syncLabel);
-        })();
     </script>
 </body>
 </html>
