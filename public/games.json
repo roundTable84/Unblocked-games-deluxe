@@ -1,0 +1,56 @@
+[
+  {
+    "id": "grid-snake",
+    "title": "Grid Snake",
+    "category": "Arcade",
+    "controls": "Arrow Keys or WASD",
+    "description": "Steer across the grid, collect amber energy cubes to grow your chain, and rack up high-speed combos without hitting the walls or your tail.",
+    "thumbnail": "/src/assets/images/thumb_grid_snake_fullbleed_1795471976315.jpg",
+    "iframe": "<iframe src=\"/games/snake/index.html\" title=\"Grid Snake\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
+  },
+  {
+    "id": "brick-breaker",
+    "title": "Brick Breaker",
+    "category": "Arcade",
+    "controls": "Mouse, Arrow Keys, or A / D",
+    "description": "Deflect the kinetic ball off your paddle to shatter layered brick walls, catch wide-paddle drops, and clear every stage.",
+    "thumbnail": "/src/assets/images/thumb_brick_breaker_1795471675202.jpg",
+    "iframe": "<iframe src=\"/games/breakout/index.html\" title=\"Brick Breaker\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
+  },
+  {
+    "id": "2048-tiles",
+    "title": "2048 Tiles",
+    "category": "Puzzle",
+    "controls": "Arrow Keys, WASD, or Buttons",
+    "description": "Slide matching number tiles across the 4x4 tray to merge powers of two, undo tricky turns, and reach the 2048 tile.",
+    "thumbnail": "/src/assets/images/thumb_2048_tiles_1795471675634.jpg",
+    "iframe": "<iframe src=\"/games/2048/index.html\" title=\"2048 Tiles\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
+  },
+  {
+    "id": "asteroids-drift",
+    "title": "Asteroids Drift",
+    "category": "Action",
+    "controls": "WASD / Arrows + Space to Fire",
+    "description": "Pilot an agile starfighter through drifting asteroid fields, split boulders with laser fire, and survive escalating waves.",
+    "thumbnail": "/src/assets/images/thumb_asteroids_drift_1795471675922.jpg",
+    "iframe": "<iframe src=\"/games/asteroids/index.html\" title=\"Asteroids Drift\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
+  },
+  {
+    "id": "minesweeper-classic",
+    "title": "Minesweeper Classic",
+    "category": "Puzzle",
+    "controls": "Left Click Reveal · Right Click Flag",
+    "description": "Deduce hidden mine locations using numeric neighbor clues, plant signal flags, and clear the entire grid safely.",
+    "thumbnail": "/src/assets/images/thumb_minesweeper_1795471676526.jpg",
+    "iframe": "<iframe src=\"/games/minesweeper/index.html\" title=\"Minesweeper Classic\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
+  },
+  {
+    "id": "flappy-hopper",
+    "title": "Flappy Hopper",
+    "category": "Action",
+    "controls": "Space, Up Arrow, or Click",
+    "description": "Time each mid-air boost to thread through narrow gate pillars, build streaks, and set a personal distance record.",
+    "thumbnail": "/src/assets/images/thumb_flappy_hopper_1795471677186.jpg",
+    "iframe": "<iframe src=\"/games/hopper/index.html\" title=\"Flappy Hopper\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
+  }
+]

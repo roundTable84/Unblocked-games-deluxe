@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flappy Hopper</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body data-state="title">
+    <main class="shell">
+      <header class="hud">
+        <div class="stat-group">
+          <div class="stat">
+            <span class="kicker">Gates</span>
+            <span id="score" class="value">0</span>
+          </div>
+          <div class="stat">
+            <span class="kicker">Best</span>
+            <span id="best" class="value">0</span>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="muteBtn" class="icon-btn" type="button">Sound On</button>
+          <button id="restartBtn" class="icon-btn" type="button">Restart</button>
+        </div>
+      </header>
+
+      <div class="stage-wrap">
+        <canvas id="board" width="560" height="400" aria-label="Flappy Hopper game canvas"></canvas>
+
+        <section id="titleOverlay" class="overlay">
+          <div class="modal-card">
+            <h1>Flappy Hopper</h1>
+            <p class="subtitle">Tap or press Space to glide cleanly through each gate pillar.</p>
+            <button id="startBtn" class="primary-btn" type="button" data-start="true">Take Flight</button>
+            <p class="controls-hint">Space, Up Arrow, or Click to boost</p>
+          </div>
+        </section>
+
+        <section id="gameOverOverlay" class="overlay hidden">
+          <div class="modal-card">
+            <h2>Flight Ended</h2>
+            <div class="summary-grid">
+              <div class="summary-tile">
+                <span class="kicker">Gates Cleared</span>
+                <span id="finalScore" class="value">0</span>
+              </div>
+              <div class="summary-tile">
+                <span class="kicker">Best</span>
+                <span id="finalBest" class="value">0</span>
+              </div>
+            </div>
+            <button id="retryBtn" class="primary-btn" type="button" data-start="true">Fly Again</button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script src="./game.js"></script>
+  </body>
+</html>
