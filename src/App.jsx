@@ -51,23 +51,42 @@ export default function App() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch('/games.json')
-      .then((res) => {
-        if (!res.ok) throw new Error(`Failed to load games.json (${res.status})`);
-        return res.json();
-      })
-      .then((data) => {
+
+    async function loadCatalog() {
+      try {
+        let res = await fetch('./games.json');
+        let fromPublicDir = false;
+        if (!res.ok) {
+          res = await fetch('./public/games.json');
+          fromPublicDir = true;
+        }
+        if (!res.ok) {
+          throw new Error(`Failed to load games.json (${res.status})`);
+        }
+        const data = await res.json();
+        const normalized = fromPublicDir
+          ? data.map((item) => ({
+              ...item,
+              iframe: String(item.iframe || '').replace(
+                /src=(["'])\.?\/games\//gi,
+                'src=$1./public/games/'
+              ),
+            }))
+          : data;
+
         if (!cancelled) {
-          setBaseGames(data);
+          setBaseGames(normalized);
           setLoading(false);
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         if (!cancelled) {
           setLoadError(err instanceof Error ? err.message : 'Unable to load games catalog.');
           setLoading(false);
         }
-      });
+      }
+    }
+
+    loadCatalog();
 
     return () => {
       cancelled = true;
