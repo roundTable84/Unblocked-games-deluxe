@@ -3,6 +3,7 @@ import {
   AlertTriangle,
   ArrowLeft,
   Maximize2,
+  Minimize2,
   RotateCcw,
 } from 'lucide-react';
 import { parseIframeEntry } from '../utils/iframeCatalog.js';
@@ -12,12 +13,24 @@ export function GamePlayerStage({ game, onBack }) {
   const iframeRef = useRef(null);
   const [reloadNonce, setReloadNonce] = useState(0);
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const parsed = useMemo(() => parseIframeEntry(game.iframe, game.title), [game.iframe, game.title]);
 
   useEffect(() => {
     setIframeLoaded(false);
+    setIsExpanded(false);
   }, [game.id, reloadNonce]);
+
+  useEffect(() => {
+    const onFsChange = () => {
+      if (!document.fullscreenElement) {
+        setIsExpanded(false);
+      }
+    };
+    document.addEventListener('fullscreenchange', onFsChange);
+    return () => document.removeEventListener('fullscreenchange', onFsChange);
+  }, []);
 
   const handleFullscreen = async () => {
     const el = stageContainerRef.current;
@@ -25,12 +38,17 @@ export function GamePlayerStage({ game, onBack }) {
     try {
       if (document.fullscreenElement) {
         await document.exitFullscreen();
-      } else if (el.requestFullscreen) {
+        setIsExpanded(false);
+        return;
+      }
+      if (el.requestFullscreen) {
         await el.requestFullscreen();
+        return;
       }
     } catch {
-      // Fullscreen may be restricted by parent sandbox; ignore silently
+      // Fall back to full-viewport theater mode when native fullscreen is blocked
     }
+    setIsExpanded((prev) => !prev);
   };
 
   const handleReload = () => {
@@ -72,16 +90,36 @@ export function GamePlayerStage({ game, onBack }) {
             aria-label="Toggle fullscreen"
             className="inline-flex items-center gap-1.5 rounded-lg bg-[#FF5A36] px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#ff6d4d] whitespace-nowrap cursor-pointer"
           >
-            <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>Fullscreen</span>
+            {isExpanded ? (
+              <Minimize2 className="h-3.5 w-3.5" aria-hidden="true" />
+            ) : (
+              <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
+            )}
+            <span>{isExpanded ? 'Exit Fullscreen' : 'Fullscreen'}</span>
           </button>
         </div>
       </div>
 
       <div
         ref={stageContainerRef}
-        className="relative w-full overflow-hidden rounded-xl border border-[#252B3B] bg-[#0B0D13] aspect-[16/10] max-h-[78vh]"
+        className={
+          isExpanded
+            ? 'fixed inset-0 z-50 bg-[#0B0D13]'
+            : 'relative w-full overflow-hidden rounded-xl border border-[#252B3B] bg-[#0B0D13] aspect-[16/10] max-h-[78vh]'
+        }
       >
+        {isExpanded && (
+          <button
+            type="button"
+            onClick={handleFullscreen}
+            aria-label="Exit fullscreen"
+            className="fixed right-4 top-4 z-50 inline-flex items-center gap-1.5 rounded-lg border border-[#2D3548] bg-[#161A23]/90 px-3.5 py-2 text-xs font-semibold text-[#F4F4F5] hover:bg-[#222836] cursor-pointer"
+          >
+            <Minimize2 className="h-3.5 w-3.5" aria-hidden="true" />
+            <span>Exit Fullscreen</span>
+          </button>
+        )}
+
         {!parsed.valid ? (
           <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-8 text-center">
             <AlertTriangle className="h-10 w-10 text-amber-400" aria-hidden="true" />
@@ -103,6 +141,7 @@ export function GamePlayerStage({ game, onBack }) {
               src={parsed.attrs.src}
               title={parsed.attrs.title}
               allow={parsed.attrs.allow}
+              allowFullScreen
               loading={parsed.attrs.loading}
               onLoad={() => {
                 setIframeLoaded(true);

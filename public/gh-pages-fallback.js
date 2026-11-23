@@ -10,8 +10,10 @@
     .ra-wrap { max-width: 1152px; margin: 0 auto; padding: 0 20px; }
     .ra-nav-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px 0; }
     .ra-brand { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 18px; font-weight: 700; color: #F4F4F5; text-decoration: none; white-space: nowrap; }
-    .ra-btn { background: #FF5A36; color: #fff; border: none; border-radius: 8px; padding: 9px 16px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    .ra-btn-sec { background: #1D222E; color: #E4E4E7; border: 1px solid #2D3548; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 500; cursor: pointer; }
+    .ra-btn { background: #FF5A36; color: #fff; border: none; border-radius: 8px; padding: 9px 16px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .ra-btn:hover { background: #ff6d4d; }
+    .ra-btn-sec { background: #1D222E; color: #E4E4E7; border: 1px solid #2D3548; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+    .ra-btn-sec:hover { background: #252C3B; }
     .ra-main { padding: 32px 0; }
     .ra-empty { background: #161A23; border: 1px solid #252B3B; border-radius: 12px; padding: 48px 24px; text-align: center; }
     .ra-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
@@ -20,13 +22,17 @@
     .ra-title { margin: 0; font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 18px; font-weight: 600; color: #F4F4F5; }
     .ra-desc { margin: 0; font-size: 14px; color: #A1A1AA; line-height: 1.5; }
     .ra-player-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; background: #161A23; border: 1px solid #252B3B; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; }
-    .ra-frame-box { width: 100%; aspect-ratio: 16 / 10; max-height: 76vh; background: #0B0D13; border: 1px solid #252B3B; border-radius: 12px; overflow: hidden; }
+    .ra-player-left, .ra-player-actions { display: flex; align-items: center; gap: 12px; }
+    .ra-frame-box { position: relative; width: 100%; aspect-ratio: 16 / 10; max-height: 76vh; background: #0B0D13; border: 1px solid #252B3B; border-radius: 12px; overflow: hidden; }
+    .ra-frame-box.ra-expanded { position: fixed; inset: 0; z-index: 60; width: 100vw; height: 100vh; max-height: none; aspect-ratio: auto; border-radius: 0; border: none; }
     .ra-frame-box iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .ra-exit-float { position: fixed; top: 14px; right: 14px; z-index: 70; background: rgba(22, 26, 35, 0.9); color: #F4F4F5; border: 1px solid #2D3548; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
   `;
   document.head.appendChild(style);
 
   let games = [];
   let activeGame = null;
+  let expanded = false;
 
   function extractSrc(iframeHtml) {
     const m = String(iframeHtml || '').match(/src\s*=\s*(?:"([^"]*)"|'([^']*)')/i);
@@ -50,6 +56,7 @@
     brand.textContent = 'Recess Arcade';
     brand.onclick = (e) => {
       e.preventDefault();
+      expanded = false;
       activeGame = null;
       render();
     };
@@ -64,26 +71,88 @@
     if (activeGame) {
       const bar = document.createElement('div');
       bar.className = 'ra-player-bar';
+
+      const left = document.createElement('div');
+      left.className = 'ra-player-left';
       const backBtn = document.createElement('button');
       backBtn.type = 'button';
       backBtn.className = 'ra-btn-sec';
       backBtn.textContent = 'Back';
       backBtn.onclick = () => {
+        expanded = false;
         activeGame = null;
         render();
       };
       const title = document.createElement('strong');
       title.textContent = activeGame.title;
-      bar.append(backBtn, title);
+      left.append(backBtn, title);
+
+      const actions = document.createElement('div');
+      actions.className = 'ra-player-actions';
+
+      const reloadBtn = document.createElement('button');
+      reloadBtn.type = 'button';
+      reloadBtn.className = 'ra-btn-sec';
+      reloadBtn.textContent = 'Reload';
+
+      const fsBtn = document.createElement('button');
+      fsBtn.type = 'button';
+      fsBtn.className = 'ra-btn';
+      fsBtn.textContent = 'Fullscreen';
+
+      actions.append(reloadBtn, fsBtn);
+      bar.append(left, actions);
 
       const box = document.createElement('div');
-      box.className = 'ra-frame-box';
+      box.className = 'ra-frame-box' + (expanded ? ' ra-expanded' : '');
       const iframe = document.createElement('iframe');
-      iframe.src = extractSrc(activeGame.iframe);
+      const src = extractSrc(activeGame.iframe);
+      iframe.src = src;
       iframe.title = activeGame.title;
       iframe.allow = 'fullscreen; autoplay';
+      iframe.allowFullscreen = true;
+      iframe.setAttribute('allowfullscreen', '');
       box.appendChild(iframe);
+
+      reloadBtn.onclick = () => {
+        iframe.src = src;
+      };
+
+      fsBtn.onclick = async () => {
+        try {
+          if (document.fullscreenElement) {
+            await document.exitFullscreen();
+            return;
+          }
+          if (box.requestFullscreen) {
+            await box.requestFullscreen();
+            return;
+          }
+          if (box.webkitRequestFullscreen) {
+            box.webkitRequestFullscreen();
+            return;
+          }
+        } catch {
+          // Fall through to full-viewport theater expand
+        }
+        expanded = !expanded;
+        box.className = 'ra-frame-box' + (expanded ? ' ra-expanded' : '');
+        render();
+      };
+
       main.append(bar, box);
+
+      if (expanded) {
+        const exitBtn = document.createElement('button');
+        exitBtn.type = 'button';
+        exitBtn.className = 'ra-exit-float';
+        exitBtn.textContent = 'Exit Fullscreen';
+        exitBtn.onclick = () => {
+          expanded = false;
+          render();
+        };
+        main.appendChild(exitBtn);
+      }
     } else if (games.length === 0) {
       const empty = document.createElement('div');
       empty.className = 'ra-empty';
@@ -125,6 +194,7 @@
         playBtn.className = 'ra-btn';
         playBtn.textContent = 'Play';
         playBtn.onclick = () => {
+          expanded = false;
           activeGame = game;
           render();
         };
