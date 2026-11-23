@@ -1,13 +1,7 @@
 import { useState } from 'react';
-import { Gamepad2, Heart, Play, Trash2 } from 'lucide-react';
+import { Gamepad2, Play, Trash2 } from 'lucide-react';
 
-export function GameCard({
-  game,
-  isFavorite,
-  onPlay,
-  onToggleFavorite,
-  onRemoveCustom,
-}) {
+export function GameCard({ game, onPlay, onRemoveCustom }) {
   const [imgFailed, setImgFailed] = useState(false);
 
   return (
@@ -40,12 +34,6 @@ export function GameCard({
             <span>{game.category}</span>
             <span className="mx-1.5" aria-hidden="true">·</span>
             <span>{game.controls}</span>
-            {game.isCustom && (
-              <>
-                <span className="mx-1.5" aria-hidden="true">·</span>
-                <span>Custom</span>
-              </>
-            )}
           </p>
           <p className="line-clamp-2 pt-1 text-sm leading-relaxed text-[#A1A1AA]">
             {game.description}
@@ -61,20 +49,6 @@ export function GameCard({
           >
             <Play className="h-3.5 w-3.5 fill-current" aria-hidden="true" />
             <span>Play</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onToggleFavorite(game.id)}
-            aria-pressed={isFavorite}
-            aria-label={isFavorite ? `Remove ${game.title} from favorites` : `Favorite ${game.title}`}
-            className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF5A36] ${
-              isFavorite
-                ? 'border-[#FF5A36]/60 bg-[#FF5A36]/15 text-[#FF5A36]'
-                : 'border-[#2D3548] bg-[#1D222E] text-[#A1A1AA] hover:text-[#F4F4F5]'
-            }`}
-          >
-            <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} aria-hidden="true" />
           </button>
 
           {game.isCustom && onRemoveCustom && (
