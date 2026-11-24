@@ -25,5 +25,14 @@
     "description": "Call plays, draft stars, and throw pinpoint passes in this retro 16-bit American football franchise game.",
     "thumbnail": "./assets/aistudio/image_df4b3ce0.png",
     "iframe": "<iframe src=\"./games/retro-bowl/index.html\" title=\"Retro Bowl\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
+  },
+  {
+    "id": "moto-x3m",
+    "title": "Moto X3M",
+    "category": "Action",
+    "controls": "Arrow Keys or W / A / S / D",
+    "description": "Race a dirt bike through loops, spikes, and explosive ramps to beat the clock on every stunt stage.",
+    "thumbnail": "./assets/aistudio/image_f53b4731.png",
+    "iframe": "<iframe src=\"./games/moto-x3m/index.html\" title=\"Moto X3M\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
   }
 ]
