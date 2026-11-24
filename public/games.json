@@ -16,5 +16,14 @@
     "description": "Steer a high-speed neon ball down endless 3D slopes while dodging red obstacles and tight drops.",
     "thumbnail": "./assets/aistudio/image_30a622c5.png",
     "iframe": "<iframe src=\"./games/slope/index.html\" title=\"Slope\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
+  },
+  {
+    "id": "retro-bowl",
+    "title": "Retro Bowl",
+    "category": "Sports",
+    "controls": "Mouse + W / S or Arrow Keys",
+    "description": "Call plays, draft stars, and throw pinpoint passes in this retro 16-bit American football franchise game.",
+    "thumbnail": "./assets/aistudio/image_df4b3ce0.png",
+    "iframe": "<iframe src=\"./games/retro-bowl/index.html\" title=\"Retro Bowl\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
   }
 ]
