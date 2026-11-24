@@ -34,5 +34,14 @@
     "description": "Race a dirt bike through loops, spikes, and explosive ramps to beat the clock on every stunt stage.",
     "thumbnail": "./assets/aistudio/image_f53b4731.png",
     "iframe": "<iframe src=\"./games/moto-x3m/index.html\" title=\"Moto X3M\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
+  },
+  {
+    "id": "subway-surfers",
+    "title": "Subway Surfers",
+    "category": "Arcade",
+    "controls": "Arrow Keys or W / A / S / D · Space",
+    "description": "Dash down busy subway tracks, dodge oncoming trains, and collect coins on a hoverboard.",
+    "thumbnail": "./assets/aistudio/image_470ef6a8.png",
+    "iframe": "<iframe src=\"./games/subway-surfers/index.html\" title=\"Subway Surfers\" allow=\"fullscreen; autoplay\" loading=\"lazy\"></iframe>"
   }
 ]
