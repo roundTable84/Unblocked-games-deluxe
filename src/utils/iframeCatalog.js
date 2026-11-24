@@ -174,3 +174,8 @@ export function serializeCatalogJson(games) {
   const clean = games.map(({ isCustom: _ignored, ...rest }) => rest);
   return JSON.stringify(clean, null, 2);
 }
+
+export function withCacheBuster(url, cacheKey = Date.now()) {
+  const separator = String(url).includes('?') ? '&' : '?';
+  return `${url}${separator}v=${encodeURIComponent(String(cacheKey))}`;
+}

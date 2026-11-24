@@ -208,13 +208,31 @@
     root.appendChild(main);
   }
 
-  fetch('./public/games.json')
-    .then((res) => (res.ok ? res.json() : fetch('./games.json').then((r) => r.json())))
-    .then((data) => {
-      games = Array.isArray(data) ? data : [];
-      render();
-    })
-    .catch(() => {
-      root.innerHTML = '<p style="padding:32px;color:#A1A1AA">Unable to load games.json catalog.</p>';
-    });
+  function fetchCatalog() {
+    const bust = Date.now();
+    fetch(`./public/games.json?v=${bust}`, { cache: 'no-store' })
+      .then((res) =>
+        res.ok
+          ? res.json()
+          : fetch(`./games.json?v=${bust}`, { cache: 'no-store' }).then((r) => r.json())
+      )
+      .then((data) => {
+        games = Array.isArray(data) ? data : [];
+        if (activeGame) {
+          activeGame = games.find((g) => g.id === activeGame.id) || activeGame;
+        }
+        render();
+      })
+      .catch(() => {
+        root.innerHTML = '<p style="padding:32px;color:#A1A1AA">Unable to load games.json catalog.</p>';
+      });
+  }
+
+  fetchCatalog();
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) fetchCatalog();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') fetchCatalog();
+  });
 })();

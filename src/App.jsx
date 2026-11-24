@@ -3,6 +3,7 @@ import { Header } from './components/Header.jsx';
 import { GameCard } from './components/GameCard.jsx';
 import { GamePlayerStage } from './components/GamePlayerStage.jsx';
 import { AddGameModal } from './components/AddGameModal.jsx';
+import { withCacheBuster } from './utils/iframeCatalog.js';
 
 const CUSTOM_GAMES_KEY = 'recess_arcade_custom_games_v1';
 
@@ -32,10 +33,15 @@ export default function App() {
 
     async function loadCatalog() {
       try {
-        let res = await fetch('./games.json');
+        const bust = Date.now();
+        let res = await fetch(withCacheBuster('./games.json', bust), {
+          cache: 'no-store',
+        });
         let fromPublicDir = false;
         if (!res.ok) {
-          res = await fetch('./public/games.json');
+          res = await fetch(withCacheBuster('./public/games.json', bust), {
+            cache: 'no-store',
+          });
           fromPublicDir = true;
         }
         if (!res.ok) {
@@ -58,6 +64,7 @@ export default function App() {
           : [];
         if (!cancelled) {
           setBaseGames(normalized);
+          setLoadError(null);
           setLoading(false);
         }
       } catch (err) {
@@ -70,8 +77,36 @@ export default function App() {
 
     loadCatalog();
 
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        loadCatalog();
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        loadCatalog();
+      }
+    };
+
+    const handleStorage = (event) => {
+      if (event.key !== CUSTOM_GAMES_KEY) return;
+      try {
+        setCustomGames(event.newValue ? JSON.parse(event.newValue) : []);
+      } catch {
+        // Ignore malformed storage data
+      }
+    };
+
+    window.addEventListener('pageshow', handlePageShow);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('storage', handleStorage);
+
     return () => {
       cancelled = true;
+      window.removeEventListener('pageshow', handlePageShow);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('storage', handleStorage);
     };
   }, []);
 

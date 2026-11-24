@@ -7,6 +7,7 @@ import {
   parseIframeEntry,
   serializeCatalogJson,
   validateNewGameInput,
+  withCacheBuster,
 } from './iframeCatalog.js';
 
 test('isSafeIframeSrc allows relative paths and http(s) URLs but blocks javascript/data', () => {
@@ -121,4 +122,9 @@ test('serializeCatalogJson strips internal isCustom flag', () => {
   ]);
   assert.equal(json.includes('isCustom'), false);
   assert.equal(json.includes('/games/hopper/index.html'), true);
+});
+
+test('withCacheBuster appends cache-busting parameter cleanly', () => {
+  assert.equal(withCacheBuster('./games.json', 12345), './games.json?v=12345');
+  assert.equal(withCacheBuster('./games.json?foo=1', 'abc'), './games.json?foo=1&v=abc');
 });
