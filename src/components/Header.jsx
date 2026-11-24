@@ -2,7 +2,7 @@ import { Code2, Plus } from 'lucide-react';
 
 export function Header({ onOpenAddModal, onOpenJsonModal, onGoHome }) {
   return (
-    <header className="sticky top-0 z-30 border-b border-[#252B3B] bg-[#0F1117]/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-30 border-b border-[#252B3B]/80 bg-[#0F1117]/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:gap-8 sm:px-6">
         <a
           href="#library"

@@ -5,7 +5,7 @@ export function GameCard({ game, onPlay, onRemoveCustom }) {
   const [imgFailed, setImgFailed] = useState(false);
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-[#252B3B] bg-[#161A23] transition-transform duration-150 hover:-translate-y-0.5 hover:border-[#37415A]">
+    <article className="group flex flex-col overflow-hidden rounded-xl border border-[#2D3548]/90 bg-[#161A23]/92 backdrop-blur-sm transition-transform duration-150 hover:-translate-y-0.5 hover:border-[#46516E]">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#11151E]">
         {game.thumbnail && !imgFailed ? (
           <img

@@ -23,6 +23,7 @@ export default function App() {
   const [activeGameId, setActiveGameId] = useState(() => {
     return new URLSearchParams(window.location.search).get('game');
   });
+  const [bgSrc, setBgSrc] = useState('./assets/aistudio/978570_9108268c.jpg');
   const [modalState, setModalState] = useState({
     open: false,
     tab: 'add',
@@ -158,14 +159,32 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0F1117] text-[#F4F4F5]">
+    <div className="relative min-h-screen flex flex-col bg-[#0F1117] text-[#F4F4F5]">
+      <img
+        src={bgSrc}
+        alt=""
+        aria-hidden="true"
+        data-testid="site-background"
+        referrerPolicy="no-referrer"
+        onError={() => {
+          if (bgSrc !== './public/assets/aistudio/978570_9108268c.jpg') {
+            setBgSrc('./public/assets/aistudio/978570_9108268c.jpg');
+          }
+        }}
+        className="pointer-events-none fixed inset-0 z-0 h-full w-full select-none object-cover object-center"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0 bg-[#0B0E17]/35"
+      />
+
       <Header
         onOpenAddModal={() => setModalState({ open: true, tab: 'add' })}
         onOpenJsonModal={() => setModalState({ open: true, tab: 'json' })}
         onGoHome={() => selectGame(null)}
       />
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
+      <main className="relative z-10 mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
         {loading ? (
           <div className="h-48 animate-pulse rounded-xl bg-[#161A23]" aria-busy="true" />
         ) : loadError ? (
