@@ -5,7 +5,7 @@
 
   const style = document.createElement('style');
   style.textContent = `
-    body { margin: 0; min-height: 100vh; background: linear-gradient(rgba(11, 14, 23, 0.35), rgba(11, 14, 23, 0.4)), url('./public/assets/aistudio/978570_9108268c.jpg') center / cover no-repeat fixed #0F1117; color: #F4F4F5; font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
+    body { margin: 0; min-height: 100vh; font-size: 90%; background: linear-gradient(rgba(11, 14, 23, 0.35), rgba(11, 14, 23, 0.4)), url('./public/assets/aistudio/978570_9108268c.jpg') center / cover no-repeat fixed #0F1117; color: #F4F4F5; font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
     .ra-header { border-bottom: 1px solid rgba(37, 43, 59, 0.85); background: rgba(15, 17, 23, 0.82); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 20; }
     .ra-wrap { max-width: 1152px; margin: 0 auto; padding: 0 20px; }
     .ra-nav-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px 0; }
